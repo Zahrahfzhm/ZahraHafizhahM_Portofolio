@@ -1,3 +1,3 @@
 # ZahraHafizhahM_Portofolio
 
-Setiap proyek tugas besar ini dikerjakan berkelompok yang terdiri dari 4-6 orang anggota
+Proyek tugas besar ini dikerjakan secara individu dan kelompok yang terdiri dari 4-6 orang anggota
