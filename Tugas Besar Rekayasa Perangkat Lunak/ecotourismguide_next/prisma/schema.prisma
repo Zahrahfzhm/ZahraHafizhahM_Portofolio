@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Dinas_pariwisata {
+  id                  Int @id @default(autoincrement())
+  nama                String
+  jabatan             String
+  divisi              String
+  no_tlp              Int
+  statusreg           StatusReg[] 
+  destinasi           Destinasi[]
+  content             Content[]
+}
+
+model Wisatawan{
+  user_id             Int @id @default(autoincrement())
+  nama_wisatawan      String @db.VarChar(255)
+  jenis_kelamin       String
+  alamat              String @db.VarChar(255)
+}
+
+model Destinasi {
+  id                                Int @id @default(autoincrement())
+  nama_destinasi                    String @db.VarChar(255)
+  deskripsi                         String @db.VarChar(255)
+  jenis_wisata                      String
+  fasilitas                         String
+  harga                             String @db.VarChar(255)
+  lokasi                            String @db.VarChar(255)
+  daerah                            String
+  rating_id                         Int @unique
+  rating                            Rating @relation(fields: [rating_id], references: [id])
+  transportasi_id                   Int @unique
+  transportasi                      Transportasi @relation(fields: [transportasi_id], references: [id])
+  statusreg                         StatusReg?
+  id_pelaku                         Int @unique
+  pelaku_wisata                     Pelaku_wisata@relation(fields: [id_pelaku] , references: [id])  
+  dinas_pariwisata                  Dinas_pariwisata[]                 
+}
+
+model Rating{
+  id                                Int @id @default(autoincrement())
+  rating                            Int
+  review                            String
+  destinasi                         Destinasi[]
+}
+
+model Transportasi{
+  id                              Int @id @default(autoincrement())
+  transportasi_tipe               String @db.VarChar(255)
+  estimasi                        String @db.VarChar(255)
+  destinasi                       Destinasi[]
+}
+
+model StatusReg{
+  statusreg_id              Int @id @default(autoincrement())
+  status                    String @db.VarChar(255)
+  dinas                     Dinas_pariwisata[]
+  destinasi_id              Int @unique
+  destinasi                 Destinasi @relation(fields: [destinasi_id], references: [id])
+  pelaku_id                 Int @unique
+  pelaku_wisata             Pelaku_wisata @relation(fields: [pelaku_id] , references: [id])
+}
+
+model Pelaku_wisata{
+  id                        Int @id @unique @default(autoincrement())
+  nama_pelaku               String @unique @db.VarChar(255)
+  password                  String @db.VarChar(255)
+  destinasi                 Destinasi[]
+  statusreg                 StatusReg[]
+}
+
+model Content{
+  content_id                Int @id @default(autoincrement())
+  Judul                     String @db.VarChar(255)
+  url                       String @db.VarChar(1000)
+  Caption                   String @db.VarChar(255)
+  dinas_pariwisata          Dinas_pariwisata[]
+}

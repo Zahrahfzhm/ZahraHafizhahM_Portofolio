@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Content` MODIFY `url` VARCHAR(1000) NOT NULL;
